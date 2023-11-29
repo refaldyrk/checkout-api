@@ -1,0 +1,30 @@
+version: '3'
+services:
+  app_backend_be:
+    container_name: checkout-api-be
+    build: .
+    env_file: .env
+    ports:
+      - 8123:8123
+    restart: on-failure
+    volumes:
+      - api:/usr/src/app/
+    depends_on:
+      - fullstack-mysql
+
+  fullstack-mysql:
+    image: mysql:latest
+    container_name: full_db_mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=checkoutdb
+      - MYSQL_USER=refal
+      - MYSQL_PASSWORD=refalpassword
+    ports:
+      - '3306:3306'
+    volumes:
+      - database_mysql:/var/lib/mysql
+
+volumes:
+  api:
+  database_mysql:
